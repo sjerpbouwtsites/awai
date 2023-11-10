@@ -103,6 +103,7 @@ function awai_create_agenda()
         'success' => true,
         'created_post'=> $new_post_id
     ];
+    return $res;
 }
 
 function awai_verify_token($token)
