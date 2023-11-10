@@ -32,6 +32,7 @@ function awai_create_agenda()
 {
     if (!$_POST) {
         $res = [
+            'success' => false,
             'err' => 'no request'
         ]        ;
         return $res;
@@ -39,6 +40,7 @@ function awai_create_agenda()
 
     if (!$_POST['awai-token']) {
         $res = [
+            'success' => false,
             'err' => 'no awai token',
             'request'=> $_POST,
         ];
@@ -46,6 +48,7 @@ function awai_create_agenda()
     }
     if (!awai_verify_token($_POST['awai-token'])) {
         $res = [
+            'success' => false,
             'err' => 'awai token invalid',
             'request'=> $_POST,
         ];
@@ -66,6 +69,7 @@ function awai_create_agenda()
         $new_post_id = wp_insert_post($new_post, true);
     } catch (\Throwable $th) {
         $res = [
+            'success' => false,
             'err' => $th,
             'request'=> $_POST,
         ];
@@ -108,7 +112,8 @@ function awai_create_agenda()
 
 function awai_verify_token($token)
 {
-    return true;
+    $salt = urldecode($token);
+    return $salt === NONCE_SALT;
 }
 
 function awai_get_all_agendas()

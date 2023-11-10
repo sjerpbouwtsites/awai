@@ -79,7 +79,7 @@ function awai_admin_page_func()
 
     echo "
             <form method='POST' action='https://sjerpvanwouden.nl/oyvey/wp-json/awai/v1/post'>
-                <input type='hidden' value='lenN!70z!C?$}i$Nnu;<3+8cQv0$-do^.C^0pwi8t6:WqtdTHQ9/iY)36LS~MN&B' name='awai-token'><br>
+                <input type='hidden' value='lenN%2170z%21C%3F%24%7Di%24Nnu%3B%3C3%2B8cQv0%24-do%5E.C%5E0pwi8t6%3AWqtdTHQ9%2FiY%2936LS%7EMN%26B' name='awai-token'><br>
                 <table class='form-table' role='presentation'>
                     <tbody>
                     ".awai_form_input('text', 'post-title', 'Post Title')."<br><br>
