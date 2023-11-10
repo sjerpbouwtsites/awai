@@ -84,7 +84,7 @@ function awai_create_agenda()
 
             foreach ($post_plekken as $pp) {
                 $slug = sanitize_title($pp);
-                if (!in_array($slug, $term_slugs[$tax_term])) {
+                if (!in_array($term_slugs[$tax_term], $slug)) {
                     wp_insert_term($slug, $tax_term);
                 }
             }
