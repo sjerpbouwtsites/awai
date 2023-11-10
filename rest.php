@@ -30,6 +30,15 @@ add_action('rest_api_init', 'awai_register_routes', 99);
 
 function awai_create_agenda()
 {
+    $log_file = plugin_dir_path(__FILE__) . 'post-log.txt';
+
+    ob_start();
+    var_dump($_POST);
+    $log = ob_get_clean();
+    $myfile = fopen($log_file, "w") or die("Unable to open file!");
+    fwrite($myfile, $log);
+    fclose($myfile);
+
     if (!$_POST) {
         $res = [
             'success' => false,
