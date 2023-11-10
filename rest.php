@@ -80,11 +80,12 @@ function awai_create_agenda()
         try {
             $post_key = "post-$tax_name";
             if ($_POST[$post_key]) {
-                $post_plekken = explode(',', strtolower($_POST[$post_key]));
-                //$post_plekken = explode(',', strtolower($_POST[$post_key]));
+                $post_plekken = explode(',', $_POST[$post_key]);
+
                 foreach ($post_plekken as $pp) {
-                    if (!in_array($pp, $term_slugs[$tax_term])) {
-                        wp_insert_term($pp, $tax_term);
+                    $slug = sanitize_title($pp);
+                    if (!in_array($slug, $term_slugs[$tax_term])) {
+                        wp_insert_term($slug, $tax_term);
                     }
                 }
                 wp_set_post_terms($new_post_id, $post_plekken, $tax_term);
