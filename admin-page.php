@@ -74,7 +74,7 @@ function awai_admin_page_func()
         </h1>";
 
 
-    echo "<p>Gebruik de volgende token in Monday: ".NONCE_SALT."</p>";
+    echo "<p>Gebruik de volgende token in Monday: <textarea>".NONCE_SALT."</textarea></p>";
 
 
     echo "
