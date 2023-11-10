@@ -80,28 +80,15 @@ function awai_create_agenda()
 
     $post_plekken = null;
     foreach (['plek', 'type'] as $tax_name) {
-        // try {
         $post_key = "post-$tax_name";
         if ($_POST[$post_key]) {
             $tax_term_dirty_names = explode(',', $_POST[$post_key]);
 
             foreach ($tax_term_dirty_names as $dirty_name) {
                 $slug = sanitize_title($dirty_name);
-                // if (!in_array($term_slugs[$tax_term], $slug)) {
-                //     wp_insert_term($slug, $tax_term);
-                // }
                 wp_set_post_terms($new_post_id, $slug, $tax_name, true);
             }
         }
-        // } catch (\Throwable $th) {
-        //     $res = [
-        //         'text' => "failed updating agenda $tax_name values",
-        //         'post_plekken' => $post_plekken,
-        //         'err' => $th,
-        //         'request'=> $_POST,
-        //     ];
-        //     return $res;
-        // }
     }
     $res = [
         'success' => true,

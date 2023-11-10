@@ -1,68 +1,23 @@
 <?php
 
-function awai_admin_page_func()
+function awai_admin_nonce_page()
 {
-    $plek_terms = get_terms(array(
-        'taxonomy'   => 'plek',
-        'hide_empty' => false,
-    ));
-    $type_terms = get_terms(array(
-        'taxonomy'   => 'type',
-        'hide_empty' => false,
-    ));
+    echo "<div id='wpbody' role='main'>
+    <div id='wpbody-content'>
+  
+      <div class='wrap'>
 
-    $plek_terms_used = array_map(function ($plek_term) {
-        return $plek_term->slug;
-    }, $plek_terms);
+        <h1 class='wp-heading-inline'>
+          Code zodat monday wordpress kan valideren
+        </h1>";
+    echo "<p>Gebruik de volgende token in Monday: <textarea style='display: block; min-width: 1200px; font-size: 8px; height: 60px; padding: 20px; margin: 20px;'>".urlencode(NONCE_SALT)."</textarea></p>";
 
-    $type_terms_used = array_map(function ($type_term) {
-        return $type_term->slug;
-    }, $type_terms);
+    echo "</div></div>";
+}
 
-    if ($_POST && array_key_exists('nonce', $_POST)) {
-        if (! wp_verify_nonce($_POST['nonce'], 'my-nonce')) {
-            awai_admin_message('NOT VERIFIED NONCE', $status = 'error');
-        } else {
-            $new_post = array(
-                'post_title'    => wp_strip_all_tags($_POST['post-title']),
-                'post_content'  => $_POST['post-content'],
-                'post_status'   => 'publish',
-                'post_author'   => 1,
-                //'post_category' => array( 8,39 )
-                'post_type'     => 'agenda',
-            );
-
-            $new_post_id = wp_insert_post($new_post, true);
-
-            $date_update_res = update_field('field_61542c48ad4da', "15/11/2038 00:00", $new_post_id);
-
-            if ($_POST['post-plek']) {
-                $post_plekken = explode(',', strtolower($_POST['post-plek']));
-                foreach ($post_plekken as $pp) {
-                    if (!array_key_exists($pp, $plek_terms_used)) {
-                        wp_insert_term($pp, 'plek');
-                    }
-                }
-                wp_set_post_terms($new_post_id, $post_plekken, 'plek');
-            }
-
-            if ($_POST['post-type']) {
-                $post_typen = explode(',', strtolower($_POST['post-type']));
-                foreach ($post_typen as $pt) {
-                    if (!array_key_exists($pt, $type_terms_used)) {
-                        wp_insert_term($pt, 'type');
-                    }
-                }
-                wp_set_post_terms($new_post_id, $post_typen, 'type');
-            }
-
-
-            awai_admin_message("Made post $new_post_id", $status = 'success');
-        }
-    }
-
-
-    $nonce = wp_create_nonce('my-nonce');
+function awai_admin_debug_page()
+{
+    awai_admin_message('Het volgende is alleen voor test en development redenen hier. Niet gebruiken thx.', $status = 'warning');
 
     echo "<div id='wpbody' role='main'>
     <div id='wpbody-content'>
@@ -72,10 +27,6 @@ function awai_admin_page_func()
         <h1 class='wp-heading-inline'>
           Wp Monday integratie test admin pagina
         </h1>";
-
-
-    echo "<p>Gebruik de volgende token in Monday: <textarea style='display: block; min-width: 1200px; font-size: 8px; height: 60px; padding: 20px; margin: 20px;'>".urlencode(NONCE_SALT)."</textarea></p>";
-
 
     echo "
             <form method='POST' action='https://sjerpvanwouden.nl/oyvey/wp-json/awai/v1/post'>
@@ -122,14 +73,15 @@ function awai_form_input($type, $name, $label_text)
 function awai_admin_page_register()
 {
     add_menu_page(
-        'awai_admin_page_func',
-        'WP monday',
+        'Awai code page',
+        'WP-monday code',
         'manage_options',
-        'awai_admin',
-        'awai_admin_page_func',
-        plugins_url('agitatie-wp-agenda-integration/awai-36-34.png'),
+        sanitize_title('Awai code page'),
+        'awai_admin_nonce_page',
+        plugins_url('awai/awai-36-34.png'),
         99
     );
+    add_submenu_page('awai-code-page', 'WP monday debug', 'WP monday debug', 'manage_options', sanitize_title('Awai admin debug page'), 'awai_admin_debug_page');
 }
 
 add_action('admin_menu', 'awai_admin_page_register');
