@@ -73,6 +73,10 @@ function awai_admin_page_func()
           Wp Monday integratie test admin pagina
         </h1>";
 
+
+    echo "<p>Gebruik de volgende token in Monday: ".NONCE_SALT."</p>";
+
+
     echo "
             <form method='POST' action='https://sjerpvanwouden.nl/oyvey/wp-json/awai/v1/post'>
                 <input type='hidden' value='hatsje!' name='awai-token'><br>
