@@ -14,7 +14,8 @@
  * Domain Path:       /languages
  */
 
-include_once('./rest.php');
+
+require_once(plugin_dir_path( __FILE__ ) . 'rest.php');
 
 
 // ON PLUGIN REGISTER
