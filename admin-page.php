@@ -74,12 +74,12 @@ function awai_admin_page_func()
         </h1>";
 
 
-    echo "<p>Gebruik de volgende token in Monday: <textarea style='display: block; min-width: 800px; height: 240px; padding: 20px; margin: 20px;'>".NONCE_SALT."</textarea></p>";
+    echo "<p>Gebruik de volgende token in Monday: <textarea style='display: block; min-width: 800px; height: 60px; padding: 20px; margin: 20px;'>".urlencode(NONCE_SALT)."</textarea></p>";
 
 
     echo "
             <form method='POST' action='https://sjerpvanwouden.nl/oyvey/wp-json/awai/v1/post'>
-                <input type='hidden' value='hatsje!' name='awai-token'><br>
+                <input type='hidden' value='lenN!70z!C?$}i$Nnu;<3+8cQv0$-do^.C^0pwi8t6:WqtdTHQ9/iY)36LS~MN&B' name='awai-token'><br>
                 <table class='form-table' role='presentation'>
                     <tbody>
                     ".awai_form_input('text', 'post-title', 'Post Title')."<br><br>
