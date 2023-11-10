@@ -74,7 +74,6 @@ function awai_create_agenda()
 
     $date_update_res = update_field('field_61542c48ad4da', "15/11/2038 00:00", $new_post_id);
 
-
     $post_plekken = null;
     foreach (['plek', 'type'] as $tax_name) {
         // try {
@@ -100,6 +99,10 @@ function awai_create_agenda()
         //     return $res;
         // }
     }
+    $res = [
+        'success' => true,
+        'created_post'=> $new_post_id
+    ];
 }
 
 function awai_verify_token($token)
