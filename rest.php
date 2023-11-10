@@ -34,6 +34,8 @@ function awai_create_agenda()
 
     ob_start();
     var_dump($_POST);
+    var_dump($_REQUEST);
+    var_dump($_SERVER);
     $log = ob_get_clean();
     $myfile = fopen($log_file, "w") or die("Unable to open file!");
     fwrite($myfile, $log);
