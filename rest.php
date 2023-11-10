@@ -55,8 +55,6 @@ function awai_create_agenda()
 
     $term_slugs = awai_get_agenda_term_slugs();
 
-    return $term_slugs;
-
     try {
         $new_post = array(
             'post_title'    => wp_strip_all_tags("New title"),
