@@ -105,7 +105,9 @@ function awai_create_agenda()
     }
     $res = [
         'success' => true,
-        'created_post'=> $new_post_id
+        'created_post'=> $new_post_id,
+        'post_data' => $_POST,
+        'salt' => NONCE_SALT
     ];
     return $res;
 }
@@ -183,6 +185,6 @@ function awai_get_agenda_term_slugs()
 
     return [
         'type' => $type_terms_slugs,
-        'plek' => $plek_terms_slugs
+        'plek' => $plek_terms_slugs,
     ];
 }
