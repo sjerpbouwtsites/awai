@@ -18,7 +18,7 @@ function awai_register_routes()
 
     register_rest_route('awai/v1', '/post', array(
       // By using this constant we ensure that when the WP_REST_Server changes our readable endpoints will work as intended.
-      'methods'  => WP_REST_Server::READABLE,
+      'methods'  => WP_REST_Server::CREATABLE,
       // Here we register our callback. The callback is fired when this endpoint is matched by the WP_REST_Server class.
       'callback' => 'awai_create_agenda',
 ));
