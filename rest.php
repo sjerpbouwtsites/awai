@@ -85,7 +85,7 @@ function awai_create_agenda()
                 $post_plekken = preg_split("/\s,/g", strtolower($_POST[$post_key]));
                 //$post_plekken = explode(',', strtolower($_POST[$post_key]));
                 foreach ($post_plekken as $pp) {
-                    if (!array_key_exists($pp, $term_slugs[$tax_term])) {
+                    if (!in_array($pp, $term_slugs[$tax_term])) {
                         wp_insert_term($pp, $tax_term);
                     }
                 }
@@ -165,13 +165,14 @@ function awai_get_agenda_term_slugs()
         'hide_empty' => false,
     ));
 
-    $plek_terms_slugs = array_map(function ($plek_term) {
-        return $plek_term->slug;
-    }, $plek_terms);
-
-    $type_terms_slugs = array_map(function ($type_term) {
-        return $type_term->slug;
-    }, $type_terms);
+    $plek_terms_slugs = [];
+    foreach ($plek_terms as $pt) {
+        $plek_terms_slugs[] = $pt;
+    }
+    $type_terms_slugs = [];
+    foreach ($type_terms as $tt) {
+        $type_terms_slugs[] = $tt;
+    }
 
     return [
         'type' => $type_terms_slugs,
