@@ -21,7 +21,7 @@ function awai_register_routes() {
 
 }
 
-add_action( 'rest_api_init', 'awai_register_routes' );
+add_action( 'rest_api_init', 'awai_register_routes', 99 );
 
 function awai_create_agenda(){
   //
