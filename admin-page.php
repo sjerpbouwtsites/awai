@@ -97,11 +97,13 @@ function awai_admin_page_func()
 
 function awai_form_input($type, $name, $label_text)
 {
+    $rand = rand(0, 100);
+
     $input = '';
     if ($type === 'date') {
         $input = "<input name='$name' type='$type' id='$name' class='regular-text'>";
     } else {
-        $input = "<input name='$name' type='$type' id='$name' class='regular-text'>";
+        $input = "<input name='$name' type='$type' id='$name' value='$label_text $rand' class='regular-text'>";
     }
     return "
     <tr>    

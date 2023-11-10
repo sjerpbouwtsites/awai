@@ -75,11 +75,13 @@ function awai_create_agenda()
     $date_update_res = update_field('field_61542c48ad4da', "15/11/2038 00:00", $new_post_id);
 
 
+    $post_plekken = null;
     foreach (['plek', 'type'] as $tax_name) {
         try {
             $post_key = "post-$tax_name";
             if ($_POST[$post_key]) {
-                $post_plekken = explode(',', strtolower($_POST[$post_key]));
+                $post_plekken = preg_split("/\s,/g", strtolower($_POST[$post_key]));
+                //$post_plekken = explode(',', strtolower($_POST[$post_key]));
                 foreach ($post_plekken as $pp) {
                     if (!array_key_exists($pp, $term_slugs[$tax_term])) {
                         wp_insert_term($pp, $tax_term);
@@ -90,6 +92,8 @@ function awai_create_agenda()
         } catch (\Throwable $th) {
             $res = [
                 'text' => "failed updating agenda $tax_name values",
+                'post_plekken' => $post_plekken,
+                'bestaande terms' => $term_slugs[$tax_term],
                 'err' => $th,
                 'request'=> $_POST,
             ];
