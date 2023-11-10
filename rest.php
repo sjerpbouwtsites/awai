@@ -1,7 +1,9 @@
 <?php
 
-
-defined('WP_USE_THEMES') or exit('No direct script access allowed');
+if (!defined('ABSPATH')) {
+    echo 'bai';
+    exit();
+}
 
 /**
  * This function is where we register our routes for our example endpoint.
