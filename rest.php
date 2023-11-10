@@ -77,28 +77,28 @@ function awai_create_agenda()
 
     $post_plekken = null;
     foreach (['plek', 'type'] as $tax_name) {
-        try {
-            $post_key = "post-$tax_name";
-            if ($_POST[$post_key]) {
-                $post_plekken = explode(',', $_POST[$post_key]);
+        // try {
+        $post_key = "post-$tax_name";
+        if ($_POST[$post_key]) {
+            $post_plekken = explode(',', $_POST[$post_key]);
 
-                foreach ($post_plekken as $pp) {
-                    $slug = sanitize_title($pp);
-                    if (!in_array($slug, $term_slugs[$tax_term])) {
-                        wp_insert_term($slug, $tax_term);
-                    }
+            foreach ($post_plekken as $pp) {
+                $slug = sanitize_title($pp);
+                if (!in_array($slug, $term_slugs[$tax_term])) {
+                    wp_insert_term($slug, $tax_term);
                 }
-                wp_set_post_terms($new_post_id, $post_plekken, $tax_term);
             }
-        } catch (\Throwable $th) {
-            $res = [
-                'text' => "failed updating agenda $tax_name values",
-                'post_plekken' => $post_plekken,
-                'err' => $th,
-                'request'=> $_POST,
-            ];
-            return $res;
+            wp_set_post_terms($new_post_id, $post_plekken, $tax_term);
         }
+        // } catch (\Throwable $th) {
+        //     $res = [
+        //         'text' => "failed updating agenda $tax_name values",
+        //         'post_plekken' => $post_plekken,
+        //         'err' => $th,
+        //         'request'=> $_POST,
+        //     ];
+        //     return $res;
+        // }
     }
 }
 
