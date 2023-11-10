@@ -38,6 +38,10 @@ function awai_create_agenda()
         return $res;
     }
 
+    if ($_POST['challenge']) {
+        return $_POST;
+    }
+
     if (!$_POST['awai-token']) {
         $res = [
             'success' => false,
