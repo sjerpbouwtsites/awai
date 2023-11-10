@@ -80,15 +80,15 @@ function awai_create_agenda()
         // try {
         $post_key = "post-$tax_name";
         if ($_POST[$post_key]) {
-            $post_plekken = explode(',', $_POST[$post_key]);
+            $tax_term_dirty_names = explode(',', $_POST[$post_key]);
 
-            // foreach ($post_plekken as $pp) {
-            //     $slug = sanitize_title($pp);
-            //     if (!in_array($term_slugs[$tax_term], $slug)) {
-            //         wp_insert_term($slug, $tax_term);
-            //     }
-            // }
-            wp_set_post_terms($new_post_id, $post_plekken, $tax_term);
+            foreach ($tax_term_dirty_names as $dirty_name) {
+                $slug = sanitize_title($dirty_name);
+                // if (!in_array($term_slugs[$tax_term], $slug)) {
+                //     wp_insert_term($slug, $tax_term);
+                // }
+                wp_set_post_terms($new_post_id, $slug, $tax_name, true);
+            }
         }
         // } catch (\Throwable $th) {
         //     $res = [
