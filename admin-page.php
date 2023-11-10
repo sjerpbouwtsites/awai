@@ -38,6 +38,7 @@ function awai_admin_debug_page()
                     ".awai_form_input('text', 'post-plek', 'Plek')."<br><br>
                     ".awai_form_input('text', 'post-type', 'Type')."<br><br>
                     ".awai_form_input('date', 'post-start-date', 'Datum')."                    
+                    ".awai_form_input('time', 'post-start-time', 'Tijd')."                    
 
                     </tbody>
                 <table>

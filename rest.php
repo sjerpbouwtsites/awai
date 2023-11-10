@@ -55,13 +55,19 @@ function awai_create_agenda()
         return $res;
     }
 
+    $title = $_POST['post-title'] || 'some title';
+    $content = $_POST['post-content'] || 'deze content';
+    $datum = $_POST['post-start-date'] || '15/11/2050';
+    $tijd = $_POST['post-start-tijd'] || '20:00';
+    $date_time = "$datum $tijd";
+
 
     $term_slugs = awai_get_agenda_term_slugs();
 
     try {
         $new_post = array(
-            'post_title'    => wp_strip_all_tags("New title"),
-            'post_content'  => 'some content',
+            'post_title'    => wp_strip_all_tags($title),
+            'post_content'  => $content,
             'post_status'   => 'publish',
             'post_type'     => 'agenda',
         );
@@ -76,7 +82,7 @@ function awai_create_agenda()
         return $res;
     }
 
-    $date_update_res = update_field('field_61542c48ad4da', "15/11/2038 00:00", $new_post_id);
+    $date_update_res = update_field('field_61542c48ad4da', $date_time, $new_post_id);
 
     $post_plekken = null;
     foreach (['plek', 'type'] as $tax_name) {
