@@ -55,10 +55,10 @@ function awai_create_agenda()
         return $res;
     }
 
-    $title = $_POST['post-title'] || 'some title';
-    $content = $_POST['post-content'] || 'deze content';
-    $datum = $_POST['post-start-date'] || '15/11/2050';
-    $tijd = $_POST['post-start-tijd'] || '20:00';
+    $title = !!$_POST['post-title'] ? $_POST['post-title'] : 'some title';
+    $content = !!$_POST['post-content'] ? $_POST['post-content'] : 'deze content';
+    $datum = !!$_POST['post-start-date'] ? $_POST['post-start-date'] : '15/11/2050';
+    $tijd = !!$_POST['post-start-tijd'] ? $_POST['post-start-tijd'] : '20:00';
     $date_time = "$datum $tijd";
 
 
