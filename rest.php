@@ -96,11 +96,15 @@ function awai_create_agenda()
             }
         }
     }
+
+
+
     $res = [
         'success' => true,
         'created_post'=> $new_post_id,
         'post_data' => $_POST,
-        'salt' => NONCE_SALT
+        'new_post'=> get_post($new_post_id),
+        'salt' => NONCE_SALT,
     ];
     return $res;
 }
