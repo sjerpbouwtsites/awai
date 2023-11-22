@@ -38,23 +38,16 @@ add_action('rest_api_init', 'awai_register_routes', 99);
 function awai_monday_challenge(WP_REST_Request $req)
 {
     $res = new WP_REST_Response($req->get_json_params());
-    $res->set_status(200);
-    return $res;
 
-    $json_data = $req->get_json_params();
-    if ($json_data['challenge']) {
-        $response = json_encode($json_data);
-        $res = new WP_REST_Response($response);
-        $res->set_status(200);
-        return $res;
-    }
-    $response = json_encode([
-        'msg'=> 'verkeerde data dude',
-        'data'=>$json_data
-    ]);
-    $res = new WP_REST_Response($response);
-    $res->set_status(400);
-    return $res;
+
+    $myfile = fopen(__FILE__."monday-log.txt", "w") or die("Unable to open file!");
+    $txt = $res;
+    fwrite($myfile, $txt);
+    fclose($myfile);
+
+    $responds = new WP_REST_Response($response);
+    $responds->set_status(400);
+    return $responds;
 }
 
 function awai_create_agenda(WP_REST_Request $req)
