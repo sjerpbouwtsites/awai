@@ -44,16 +44,16 @@ function awai_monday_challenge(WP_REST_Request $req)
     fwrite($myfile, $logtext);
     fclose($myfile);
 
+    $doc_url = $res->event->value->value;
     ob_start();
     echo "<pre>";
-    var_dump($res);
+    var_dump($doc_url);
     echo "</pre>";
     $html = ob_get_clean();
     $html_file = fopen(__DIR__."/post-html.html", "w") or die("Unable to open file!");
     fwrite($html_file, $html);
     fclose($html_file);
 
-//    $doc_url = $res['event']['value']['value'];
 
     $responds = new WP_REST_Response($response);
     $responds->set_status(400);
