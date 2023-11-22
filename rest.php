@@ -37,6 +37,10 @@ add_action('rest_api_init', 'awai_register_routes', 99);
 
 function awai_monday_challenge(WP_REST_Request $req)
 {
+    $res = new WP_REST_Response($req);
+    $res->set_status(200);
+    return $res;
+
     $json_data = $req->get_json_params();
     if ($json_data['challenge']) {
         $response = json_encode($json_data);
