@@ -35,7 +35,7 @@ function awai_register_routes()
 
 add_action('rest_api_init', 'awai_register_routes', 99);
 
-function awai_create_agenda(WP_REST_Request $req)
+function awai_monday_challenge(WP_REST_Request $req)
 {
     $json_data = $req->get_json_params();
     if ($json_data['challenge']) {
