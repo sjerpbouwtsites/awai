@@ -40,11 +40,20 @@ function awai_monday_challenge(WP_REST_Request $req)
     $res = json_decode($req->get_body());
 
     $logtext = json_encode($res, JSON_PRETTY_PRINT);
-    $doc_url = $res['event']['value']['value'];
     $myfile = fopen(__DIR__."/post-log.json", "w") or die("Unable to open file!");
-    fwrite($myfile, $doc_url);
+    fwrite($myfile, $logtext);
     fclose($myfile);
 
+    ob_start();
+    echo "<pre>";
+    var_dump($res);
+    echo "</pre>";
+    $html = ob_get_clean();
+    $html_file = fopen(__DIR__."/post-html.html", "w") or die("Unable to open file!");
+    fwrite($html_file, $html);
+    fclose($html_file);
+
+//    $doc_url = $res['event']['value']['value'];
 
     $responds = new WP_REST_Response($response);
     $responds->set_status(400);
