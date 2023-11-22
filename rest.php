@@ -28,26 +28,18 @@ function awai_register_routes()
 
 add_action('rest_api_init', 'awai_register_routes', 99);
 
-function awai_create_agenda()
+function awai_create_agenda($req)
 {
-    // $log_file = plugin_dir_path(__FILE__) . 'post-log.txt';
+    $response['hallo'] = 'ja doei';
+    $response['origin_data'] = $req;
 
-    // ob_start();
-    // var_dump($_POST);
-    // var_dump($_REQUEST);
-    // var_dump($_SERVER);
-    // $log = ob_get_clean();
-    // $myfile = fopen($log_file, "w") or die("Unable to open file!");
-    // fwrite($myfile, $log);
-    // fclose($myfile);
+    $res = new WP_REST_Response($response);
+    $res->set_status(200);
 
-    // Takes raw data from the request
-    $json = file_get_contents('php://input');
 
-    // Converts it into a PHP object
-    $data = json_decode($json);
+    return ['req' => $res];
 
-    if (!$data) {
+    if (!$req) {
         $res = [
             'success' => false,
             'err' => 'no request'
@@ -55,31 +47,31 @@ function awai_create_agenda()
         return $res;
     }
 
-    if ($data['challenge']) {
-        return json_encode($data);
+    if ($req['challenge']) {
+        return json_encode($req);
     }
 
-    if (!$data['awai-token']) {
+    if (!$req['awai-token']) {
         $res = [
             'success' => false,
             'err' => 'no awai token',
-            'request'=> $data,
+            'request'=> $req,
         ];
         return $res;
     }
-    if (!awai_verify_token($data['awai-token'])) {
+    if (!awai_verify_token($req['awai-token'])) {
         $res = [
             'success' => false,
             'err' => 'awai token invalid',
-            'request'=> $data,
+            'request'=> $req,
         ];
         return $res;
     }
 
-    $title = !!$data['post-title'] ? $data['post-title'] : 'some title';
-    $content = !!$data['post-content'] ? $data['post-content'] : 'deze content';
-    $datum = !!$data['post-start-date'] ? $data['post-start-date'] : '15/11/2050';
-    $tijd = !!$data['post-start-tijd'] ? $data['post-start-tijd'] : '20:00';
+    $title = !!$req['post-title'] ? $req['post-title'] : 'some title';
+    $content = !!$req['post-content'] ? $req['post-content'] : 'deze content';
+    $datum = !!$req['post-start-date'] ? $req['post-start-date'] : '15/11/2050';
+    $tijd = !!$req['post-start-tijd'] ? $req['post-start-tijd'] : '20:00';
     $date_time = "$datum $tijd";
 
 
