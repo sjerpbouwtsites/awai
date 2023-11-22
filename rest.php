@@ -5,6 +5,8 @@ if (!defined('ABSPATH')) {
     exit();
 }
 
+use HeadlessChromium\BrowserFactory;
+
 /**
  * This function is where we register our routes for our example endpoint.
  */
@@ -53,6 +55,29 @@ function awai_monday_challenge(WP_REST_Request $req)
     $html_file = fopen(__DIR__."/post-html.html", "w") or die("Unable to open file!");
     fwrite($html_file, $html);
     fclose($html_file);
+
+    $browserFactory = new BrowserFactory();
+
+    // starts headless Chrome
+    $browser = $browserFactory->createBrowser();
+
+    try {
+        // creates a new page and navigate to an URL
+        $page = $browser->createPage();
+        $page->navigate($doc_url)->waitForNavigation(Page::DOM_CONTENT_LOADED, 10000);
+
+        // get page title
+        $pageTitle = $page->evaluate('document.title')->getReturnValue();
+        $image = $page->evaluate("document.querySelector('.file-image')")->getReturnValue();
+
+        $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
+        $html2 = $pageTitle + $image;
+        fwrite($html_file2, $html);
+        fclose($html_file2);
+    } finally {
+        // bye
+        $browser->close();
+    }
 
 
     $responds = new WP_REST_Response($response);
