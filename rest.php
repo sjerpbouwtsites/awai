@@ -37,10 +37,10 @@ add_action('rest_api_init', 'awai_register_routes', 99);
 
 function awai_monday_challenge(WP_REST_Request $req)
 {
-    $res = new WP_REST_Response($req->get_json_params());
+    $res = $req->get_json_params();
 
 
-    $myfile = fopen(__FILE__."monday-log.txt", "w") or die("Unable to open file!");
+    $myfile = fopen(__DIR__."/post-log.txt", "w") or die("Unable to open file!");
     $txt = $res;
     fwrite($myfile, $txt);
     fclose($myfile);
