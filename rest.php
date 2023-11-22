@@ -31,13 +31,12 @@ add_action('rest_api_init', 'awai_register_routes', 99);
 function awai_create_agenda($req)
 {
     $response['hallo'] = 'ja doei';
-    $response['origin_data'] = $req;
+    $response['origin_data'] = json_decode($req);
 
     $res = new WP_REST_Response($response);
     $res->set_status(200);
 
-
-    return ['req' => $res];
+    return $res;
 
     if (!$req) {
         $res = [
