@@ -64,7 +64,7 @@ function awai_admin_debug_page()
    const data = JSON.stringify({challenge: 'harry'});
    console.log({sending: data})
    submitJsonBtn.onclick = async (e) => {
-    let response = await fetch('https://sjerpvanwouden.nl/oyvey/wp-json/awai/v1/post', {
+    let response = await fetch('https://sjerpvanwouden.nl/oyvey/wp-json/awai/v1/challenge', {
             method: 'Post',
             headers: {
                 'Content-Type': 'application/json',

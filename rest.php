@@ -24,27 +24,47 @@ function awai_register_routes()
       // Here we register our callback. The callback is fired when this endpoint is matched by the WP_REST_Server class.
       'callback' => 'awai_create_agenda',
 ));
+
+    register_rest_route('awai/v1', '/challenge', array(
+        // By using this constant we ensure that when the WP_REST_Server changes our readable endpoints will work as intended.
+        'methods'  => WP_REST_Server::CREATABLE,
+        // Here we register our callback. The callback is fired when this endpoint is matched by the WP_REST_Server class.
+        'callback' => 'awai_monday_challenge',
+    ));
 }
 
 add_action('rest_api_init', 'awai_register_routes', 99);
 
 function awai_create_agenda(WP_REST_Request $req)
 {
-    $response['hallo'] = 'ja doei';
+    $json_data = $req->get_json_params();
+    if ($json_data['challenge']) {
+        $response = json_encode($json_data);
+        $res = new WP_REST_Response($response);
+        $res->set_status(200);
+        return $res;
+    }
+    $response = json_encode([
+        'msg'=> 'verkeerde data dude',
+        'data'=>$json_data
+    ]);
+    $res = new WP_REST_Response($response);
+    $res->set_status(400);
+    return $res;
+}
 
-    $response['origin_data'] = ['url' => $req->get_url_params(),
-    'query' => $req->get_query_params(),
-    'body' => $req->get_body_params(),
-    'json' => $req->get_json_params(),
-    'default' => $req->get_default_params(),
-    ];
+function awai_create_agenda(WP_REST_Request $req)
+{
+    $json_data = $req->get_json_params();
+
+
 
     $res = new WP_REST_Response($response);
     $res->set_status(200);
 
     return $res;
 
-    if (!$req) {
+    if (!$json_data) {
         $res = [
             'success' => false,
             'err' => 'no request'
@@ -52,31 +72,31 @@ function awai_create_agenda(WP_REST_Request $req)
         return $res;
     }
 
-    if ($req['challenge']) {
-        return json_encode($req);
+    if ($json_data['challenge']) {
+        return json_encode($json_data);
     }
 
-    if (!$req['awai-token']) {
+    if (!$json_data['awai-token']) {
         $res = [
             'success' => false,
             'err' => 'no awai token',
-            'request'=> $req,
+            'request'=> $json_data,
         ];
         return $res;
     }
-    if (!awai_verify_token($req['awai-token'])) {
+    if (!awai_verify_token($json_data['awai-token'])) {
         $res = [
             'success' => false,
             'err' => 'awai token invalid',
-            'request'=> $req,
+            'request'=> $json_data,
         ];
         return $res;
     }
 
-    $title = !!$req['post-title'] ? $req['post-title'] : 'some title';
-    $content = !!$req['post-content'] ? $req['post-content'] : 'deze content';
-    $datum = !!$req['post-start-date'] ? $req['post-start-date'] : '15/11/2050';
-    $tijd = !!$req['post-start-tijd'] ? $req['post-start-tijd'] : '20:00';
+    $title = !!$json_data['post-title'] ? $json_data['post-title'] : 'some title';
+    $content = !!$json_data['post-content'] ? $json_data['post-content'] : 'deze content';
+    $datum = !!$json_data['post-start-date'] ? $json_data['post-start-date'] : '15/11/2050';
+    $tijd = !!$json_data['post-start-tijd'] ? $json_data['post-start-tijd'] : '20:00';
     $date_time = "$datum $tijd";
 
 
