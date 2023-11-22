@@ -72,8 +72,12 @@ function awai_admin_debug_page()
             body: data,
             mode: 'same-origin'
     }).then(res =>{
-        printRes.innerHTML = res.text()
-    }).catch(err => {
+        return res.text()
+    })
+    .then(text=>{
+        printRes.innerHTML = text;
+    })
+    .catch(err => {
         console.log(err);
         //printRes.innerHTML = res
     })
