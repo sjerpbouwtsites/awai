@@ -28,6 +28,11 @@ function awai_admin_debug_page()
           Wp Monday integratie test admin pagina
         </h1>";
 
+
+    echo "<p class='submit'><input type='submit' name='submit-2' id='submit-json' class='button button-primary' value='verstuur json challenge'></p>";
+    echo "<pre id='print-res' style='height: 500px; width: 800px; background-color: white; padding: 20px;'>
+        </pre>";
+    echo "<br><br><hr><br><br>";
     echo "
             <form method='POST' action='https://sjerpvanwouden.nl/oyvey/wp-json/awai/v1/post'>
                 <input type='hidden' value='lenN%2170z%21C%3F%24%7Di%24Nnu%3B%3C3%2B8cQv0%24-do%5E.C%5E0pwi8t6%3AWqtdTHQ9%2FiY%2936LS%7EMN%26B' name='awai-token'><br>
@@ -46,9 +51,37 @@ function awai_admin_debug_page()
             </form>";
 
 
+
+
     echo "      </div>
     </div>
    </div>";
+
+    echo "<script>
+  
+   const submitJsonBtn = document.querySelector('#submit-json');
+   const printRes = document.getElementById('print-res');
+   const data = JSON.stringify({challenge: 'harry'});
+   console.log({sending: data})
+   submitJsonBtn.onclick = async (e) => {
+    let response = await fetch('https://sjerpvanwouden.nl/oyvey/wp-json/awai/v1/post', {
+            method: 'Post',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: data,
+            mode: 'same-origin'
+    }).then(res =>{
+        printRes.innerHTML = res.text()
+    }).catch(err => {
+        console.log(err);
+        //printRes.innerHTML = res
+    })
+
+    
+};   
+   
+   </script>";
 }
 
 function awai_form_input($type, $name, $label_text)
