@@ -72,7 +72,7 @@ function awai_admin_debug_page()
             body: data,
             mode: 'same-origin'
     }).then(res =>{
-        return res.text()
+        return res.json()
     })
     .then(text=>{
         printRes.innerHTML = text;
