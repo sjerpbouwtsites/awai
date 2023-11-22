@@ -39,7 +39,7 @@ function awai_monday_challenge(WP_REST_Request $req)
 {
     $res = json_decode($req->get_body());
 
-    $logtext = json_encode($res, JSON_PRETTY_PRINT, 512, 2);
+    $logtext = json_encode($res, JSON_PRETTY_PRINT);
 
 
     $myfile = fopen(__DIR__."/post-log.json", "w") or die("Unable to open file!");
