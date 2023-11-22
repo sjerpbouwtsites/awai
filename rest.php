@@ -30,18 +30,24 @@ add_action('rest_api_init', 'awai_register_routes', 99);
 
 function awai_create_agenda()
 {
-    $log_file = plugin_dir_path(__FILE__) . 'post-log.txt';
+    // $log_file = plugin_dir_path(__FILE__) . 'post-log.txt';
 
-    ob_start();
-    var_dump($_POST);
-    var_dump($_REQUEST);
-    var_dump($_SERVER);
-    $log = ob_get_clean();
-    $myfile = fopen($log_file, "w") or die("Unable to open file!");
-    fwrite($myfile, $log);
-    fclose($myfile);
+    // ob_start();
+    // var_dump($_POST);
+    // var_dump($_REQUEST);
+    // var_dump($_SERVER);
+    // $log = ob_get_clean();
+    // $myfile = fopen($log_file, "w") or die("Unable to open file!");
+    // fwrite($myfile, $log);
+    // fclose($myfile);
 
-    if (!$_POST) {
+    // Takes raw data from the request
+    $json = file_get_contents('php://input');
+
+    // Converts it into a PHP object
+    $data = json_decode($json);
+
+    if (!$data) {
         $res = [
             'success' => false,
             'err' => 'no request'
@@ -49,31 +55,31 @@ function awai_create_agenda()
         return $res;
     }
 
-    if ($_POST['challenge']) {
-        return $_POST;
+    if ($data['challenge']) {
+        return json_encode($data);
     }
 
-    if (!$_POST['awai-token']) {
+    if (!$data['awai-token']) {
         $res = [
             'success' => false,
             'err' => 'no awai token',
-            'request'=> $_POST,
+            'request'=> $data,
         ];
         return $res;
     }
-    if (!awai_verify_token($_POST['awai-token'])) {
+    if (!awai_verify_token($data['awai-token'])) {
         $res = [
             'success' => false,
             'err' => 'awai token invalid',
-            'request'=> $_POST,
+            'request'=> $data,
         ];
         return $res;
     }
 
-    $title = !!$_POST['post-title'] ? $_POST['post-title'] : 'some title';
-    $content = !!$_POST['post-content'] ? $_POST['post-content'] : 'deze content';
-    $datum = !!$_POST['post-start-date'] ? $_POST['post-start-date'] : '15/11/2050';
-    $tijd = !!$_POST['post-start-tijd'] ? $_POST['post-start-tijd'] : '20:00';
+    $title = !!$data['post-title'] ? $data['post-title'] : 'some title';
+    $content = !!$data['post-content'] ? $data['post-content'] : 'deze content';
+    $datum = !!$data['post-start-date'] ? $data['post-start-date'] : '15/11/2050';
+    $tijd = !!$data['post-start-tijd'] ? $data['post-start-tijd'] : '20:00';
     $date_time = "$datum $tijd";
 
 
