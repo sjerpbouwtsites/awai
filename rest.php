@@ -76,8 +76,7 @@ function awai_monday_challenge(WP_REST_Request $req)
     try {
         // creates a new page and navigate to an URL
         $page = $browser->createPage();
-        $page->navigate($doc_url);
-        $page->waitForNavigation(Page::NETWORK_IDLE, 10000);
+        $page->navigate($doc_url)->waitForNavigation(Page::NETWORK_IDLE, 10000);
 
         // get page title
         $pageTitle = $page->evaluate('document.title')->getReturnValue();
