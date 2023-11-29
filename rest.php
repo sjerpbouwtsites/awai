@@ -92,7 +92,6 @@ function awai_monday_challenge(WP_REST_Request $req)
         $body_html=preg_replace('/style=".*?"/', '', $body_html);
         $body_html=preg_replace('/data-cy=".*?"/', '', $body_html);
         $body_html=preg_replace('/\s{2,50}/', ' ', $body_html);
-        $body_html=preg_replace('/<div >/', '<div>', $body_html);
         $body_html = preg_replace('/\<[\/]{0,1}div[^\>]*\>/i', '', $body_html);
 
 
@@ -118,7 +117,7 @@ function awai_monday_challenge(WP_REST_Request $req)
         $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
         ob_start();
         echo "DIT IS M";
-        var_dump($post_id);
+        var_dump($body_html);
         $html2 = ob_get_clean();
 
         fwrite($html_file2, $html2);
