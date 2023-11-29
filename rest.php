@@ -98,6 +98,11 @@ function awai_monday_challenge(WP_REST_Request $req)
 
         $body_html = $page->evaluate("document.querySelector('.blocks-list').innerHTML")->getReturnValue();
         $body_html=preg_replace('/class=".*?"/', '', $body_html);
+        $body_html=preg_replace('/data-block-id=".*?"/', '', $body_html);
+        $body_html=preg_replace('/contenteditable=".*?"/', '', $body_html);
+        $body_html=preg_replace('/data-gramm=".*?"/', '', $body_html);
+        $body_html=preg_replace('/tab-index=".*?"/', '', $body_html);
+        $body_html=preg_replace('/style=".*?"/', '', $body_html);
 
 
 
