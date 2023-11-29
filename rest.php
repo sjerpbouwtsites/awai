@@ -95,12 +95,18 @@ function awai_monday_challenge(WP_REST_Request $req)
         $body_html=preg_replace('/<div >/', '<div>', $body_html);
         $body_html = preg_replace('/\<[\/]{0,1}div[^\>]*\>/i', '', $body_html);
 
-        $args = array("post_type" => "post", "s" => $page_title,'post_status' => array('publish', 'pending', 'draft') );
-        $query = get_posts($args);
-        $post_id = 0;
-        if (count($query) > 0) {
-            $post_id = $query[0]->ID;
-        }
+
+        $args = array(
+            'post_type' => 'post',// your post type,
+            'orderby' => 'post_date',
+            'post_status' => array('publish', 'pending', 'draft'),
+            'order' => 'DESC',
+            'cat' => 27
+        );
+        $the_query = new WP_Query($args);
+        // if (count($query) > 0) {
+        //     $post_id = $query[0]->ID;
+        // }
 
         wp_insert_post([
             'post_id'       => $post_id,
@@ -112,7 +118,7 @@ function awai_monday_challenge(WP_REST_Request $req)
 
         $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
         $html2 = "<!DOCTYPE html><html><body><pre>
-        ".var_dump($query)."
+        ".var_dump($the_query)."
         </pre>
         </body></html>";
         fwrite($html_file2, $html2);
