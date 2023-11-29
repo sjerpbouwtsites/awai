@@ -74,7 +74,7 @@ function awai_monday_challenge(WP_REST_Request $req)
 
         // get page title
         $pageTitle = $page->evaluate('document.title')->getReturnValue();
-        $doc_op = "document.querySelector('.file-image')?.src || 'geen image";
+        $doc_op = "document.querySelector('.file-image')?.src || 'geen image'";
         $image = $page->evaluate($doc_op)->getReturnValue();
 
         $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
