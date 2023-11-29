@@ -79,13 +79,19 @@ function awai_monday_challenge(WP_REST_Request $req)
         $page->navigate($doc_url)->waitForNavigation(Page::NETWORK_IDLE, 10000);
 
         // get page title
-        $pageTitle = $page->evaluate('document.title')->getReturnValue();
+        $pageTitle = $page->evaluate("document.querySelector('.broadcast-top-bar-inner h4')")->getReturnValue();
         $doc_op = "document.querySelector('.file-image')?.src || 'geen image'";
         $image = $page->evaluate($doc_op)->getReturnValue();
-        $body_html = $page->evaluate("document.body.innerHTML")->getReturnValue();
+
+        $body_html = $page->evaluate("Array.from(document.querySelectorAll('.blocks-list > * ~ *')).map(blockContainer => blockContainer.innerHTML).join('')")->getReturnValue();
 
         $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
-        $html2 = $image . $pageTitle;
+        $html2 = "
+        $image
+        
+        $pageTitle
+        
+        $body_html";
         fwrite($html_file2, $html2);
         fclose($html_file2);
     } finally {
