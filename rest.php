@@ -104,11 +104,13 @@ function awai_monday_challenge(WP_REST_Request $req)
             'cat' => 27
         );
         $newsletter_posts = get_posts($args);
+
         $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
-        $html2 = "<!DOCTYPE html><html><body><pre>
-        ".var_dump($newsletter_posts)."
-        </pre>
-        </body></html>";
+        ob_start();
+        var_dump($args);
+        var_dump($newsletter_posts);
+        $html2 = ob_get_clean();
+
         fwrite($html_file2, $html2);
         fclose($html_file2);
         $post_id = 0;
