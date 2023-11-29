@@ -89,8 +89,7 @@ function awai_monday_challenge(WP_REST_Request $req)
         // ";
         // $page->evaluate($remove_image);
 
-        // $body_html = $page->evaluate("document.body.innerHTML")->getReturnValue();
-        $body_html = 'nog neits';
+        $body_html = $page->evaluate("document.body.innerHTML")->getReturnValue();
 
         $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
         $html2 = "
