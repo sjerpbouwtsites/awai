@@ -90,11 +90,11 @@ function awai_monday_challenge(WP_REST_Request $req)
         $doc_op = "document.querySelector('.file-image')?.src || 'geen image'";
         $image = $page->evaluate($doc_op)->getReturnValue();
 
-        // $remove_image = "
-        // const firstBlock = document.querySelector('.blocks-list .block-container');
-        // firstBlock.parentNode.removeChild(firstBlock);
-        // ";
-        // $page->evaluate($remove_image);
+        $remove_image = "
+        const firstBlock = document.querySelector('.blocks-list .block-container');
+        firstBlock.parentNode.removeChild(firstBlock);
+        ";
+        $page->evaluate($remove_image);
 
         $body_html = $page->evaluate("document.body.innerHTML")->getReturnValue();
 
