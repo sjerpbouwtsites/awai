@@ -96,10 +96,10 @@ function awai_monday_challenge(WP_REST_Request $req)
         // ";
         // $page->evaluate($remove_image);
 
-//        $body_html = $page->evaluate("document.body.innerHTML")->getReturnValue();
+        $body_html = $page->evaluate("document.body.innerHTML")->getReturnValue();
 
 
-        $body_html = 'nog niets';
+
         $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
         $html2 = "
         $image
@@ -114,8 +114,10 @@ function awai_monday_challenge(WP_REST_Request $req)
         $browser->close();
     }
 
-    $responds = new WP_REST_Response($response);
-    $responds->set_status(400);
+    $responds = new WP_REST_Response(json_encode([
+        'success' => true
+    ]));
+    $responds->set_status(200);
     return $responds;
 }
 
