@@ -79,7 +79,6 @@ function awai_monday_challenge(WP_REST_Request $req)
         $browser->close();
     }
 
-
     $responds = new WP_REST_Response($response);
     $responds->set_status(400);
     return $responds;
