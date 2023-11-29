@@ -49,9 +49,15 @@ function awai_monday_challenge(WP_REST_Request $req)
     fwrite($myfile, $logtext);
     fclose($myfile);
 
-    $doc_url = $res->event->value->value;
-    if (!$doc_url) {
+    $doc_url = null;
+    try {
+        $doc_url = $res->event->value->value;
+        if (!$doc_url) {
+            return;
+        }
+    } catch (\Throwable $th) {
         return;
+        ;
     }
     ob_start();
     echo "<pre>";
@@ -70,15 +76,17 @@ function awai_monday_challenge(WP_REST_Request $req)
     try {
         // creates a new page and navigate to an URL
         $page = $browser->createPage();
-        $page->navigate($doc_url)->waitForNavigation(Page::DOM_CONTENT_LOADED, 10000);
+        $page->navigate($doc_url);
+        $page->waitForNavigation(Page::NETWORK_IDLE, 10000);
 
         // get page title
         $pageTitle = $page->evaluate('document.title')->getReturnValue();
         $doc_op = "document.querySelector('.file-image')?.src || 'geen image'";
         $image = $page->evaluate($doc_op)->getReturnValue();
+        $body_html = $page->evaluate("document.body.innerHTML")->getReturnValue();
 
         $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
-        $html2 = $pageTitle . $image;
+        $html2 = $image . $pageTitle;
         fwrite($html_file2, $html);
         fclose($html_file2);
     } finally {
