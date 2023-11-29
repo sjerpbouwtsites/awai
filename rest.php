@@ -95,7 +95,15 @@ function awai_monday_challenge(WP_REST_Request $req)
         $body_html=preg_replace('/<div >/', '<div>', $body_html);
         $body_html = preg_replace('/\<[\/]{0,1}div[^\>]*\>/i', '', $body_html);
 
+        $args = array("post_type" => "post", "s" => $page_title,'post_status' => array('publish', 'pending', 'draft') );
+        $query = get_posts($args);
+        $post_id = 0;
+        if (count($query) > 0) {
+            $post_id = $query[0]->ID;
+        }
+
         wp_insert_post([
+            'post_id'       => $post_id,
             'post_author'   => 5,
             'post_content'  => $body_html,
             'post_title'    => $page_title,
