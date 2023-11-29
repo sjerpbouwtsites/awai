@@ -110,25 +110,27 @@ function awai_monday_challenge(WP_REST_Request $req)
             foreach ($newsletter_posts as $np) {
                 if ($np->post_title === $page_title) {
                     $post_id = $np->ID;
-                    $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
-                    ob_start();
-                    echo "DIT IS M";
-                    var_dump($np);
-                    $html2 = ob_get_clean();
-
-                    fwrite($html_file2, $html2);
-                    fclose($html_file2);
                     break;
                 }
             }
         }
+
+        $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
+        ob_start();
+        echo "DIT IS M";
+        var_dump($post_id);
+        $html2 = ob_get_clean();
+
+        fwrite($html_file2, $html2);
+        fclose($html_file2);
 
         wp_insert_post([
             'ID'            => $post_id,
             'post_author'   => 5,
             'post_content'  => $body_html,
             'post_title'    => $page_title,
-            'post_category' => [27]
+            'post_category' => [27],
+            'post_status'   => 'publish'
         ], true);
     } finally {
         // bye
