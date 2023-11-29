@@ -105,19 +105,19 @@ function awai_monday_challenge(WP_REST_Request $req)
         );
         $newsletter_posts = get_posts($args);
 
-        $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
-        ob_start();
-        var_dump($args);
-        var_dump($newsletter_posts);
-        $html2 = ob_get_clean();
-
-        fwrite($html_file2, $html2);
-        fclose($html_file2);
         $post_id = 0;
         if (count($newsletter_posts) > 0) {
             foreach ($newsletter_posts as $np) {
                 if ($np->post_title === $page_title) {
                     $post_id = $np->ID;
+                    $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
+                    ob_start();
+                    echo "DIT IS M";
+                    var_dump($np);
+                    $html2 = ob_get_clean();
+
+                    fwrite($html_file2, $html2);
+                    fclose($html_file2);
                     break;
                 }
             }
