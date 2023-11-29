@@ -101,10 +101,11 @@ function awai_monday_challenge(WP_REST_Request $req)
         $body_html=preg_replace('/data-block-id=".*?"/', '', $body_html);
         $body_html=preg_replace('/contenteditable=".*?"/', '', $body_html);
         $body_html=preg_replace('/data-gramm=".*?"/', '', $body_html);
-        $body_html=preg_replace('/tab-index=".*?"/', '', $body_html);
+        $body_html=preg_replace('/tabindex=".*?"/', '', $body_html);
         $body_html=preg_replace('/style=".*?"/', '', $body_html);
-
-
+        $body_html=preg_replace('/\s{2,50}/', ' ', $body_html);
+        $body_html=preg_replace('/<div >/', '<div>', $body_html);
+        $body_html = preg_replace('/\<[\/]{0,1}div[^\>]*\>/i', '', $body_html);
 
         $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
         $html2 = "<!DOCTYPE html><html><body>
