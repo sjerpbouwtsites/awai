@@ -8,6 +8,7 @@ if (!defined('ABSPATH')) {
 }
 
 use HeadlessChromium\BrowserFactory;
+use HeadlessChromium\Page;
 
 /**
  * This function is where we register our routes for our example endpoint.
