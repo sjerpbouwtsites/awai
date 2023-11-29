@@ -44,11 +44,6 @@ function awai_monday_challenge(WP_REST_Request $req)
 {
     $res = json_decode($req->get_body());
 
-    $logtext = json_encode($res, JSON_PRETTY_PRINT);
-    $myfile = fopen(__DIR__."/post-log.json", "w") or die("Unable to open file!");
-    fwrite($myfile, $logtext);
-    fclose($myfile);
-
     $doc_url = null;
     try {
         $doc_url = $res->event->value->value;
@@ -59,14 +54,6 @@ function awai_monday_challenge(WP_REST_Request $req)
         return;
         ;
     }
-    ob_start();
-    echo "<pre>";
-    var_dump($doc_url);
-    echo "</pre>";
-    $html = ob_get_clean();
-    $html_file = fopen(__DIR__."/post-html.html", "w") or die("Unable to open file!");
-    fwrite($html_file, $html);
-    fclose($html_file);
 
     $browserFactory = new BrowserFactory();
 
@@ -103,9 +90,17 @@ function awai_monday_challenge(WP_REST_Request $req)
         $body_html=preg_replace('/data-gramm=".*?"/', '', $body_html);
         $body_html=preg_replace('/tabindex=".*?"/', '', $body_html);
         $body_html=preg_replace('/style=".*?"/', '', $body_html);
+        $body_html=preg_replace('/data-cy=".*?"/', '', $body_html);
         $body_html=preg_replace('/\s{2,50}/', ' ', $body_html);
         $body_html=preg_replace('/<div >/', '<div>', $body_html);
         $body_html = preg_replace('/\<[\/]{0,1}div[^\>]*\>/i', '', $body_html);
+
+        wp_insert_post([
+            'post_author'   => 5,
+            'post_content'  => $body_html,
+            'post_title'    => $page_title,
+            'post_category' => [27]
+        ], true);
 
         $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
         $html2 = "<!DOCTYPE html><html><body>
