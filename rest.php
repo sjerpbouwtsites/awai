@@ -111,8 +111,9 @@ function awai_monday_challenge(WP_REST_Request $req)
         ], true);
 
         $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
-        $html2 = "<!DOCTYPE html><html><body>
-        $body_html
+        $html2 = "<!DOCTYPE html><html><body><pre>
+        ".var_dump($query)."
+        </pre>
         </body></html>";
         fwrite($html_file2, $html2);
         fclose($html_file2);
