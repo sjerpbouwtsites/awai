@@ -104,7 +104,7 @@ function awai_monday_challenge(WP_REST_Request $req)
         $html2 = "
         $image
         
-        $pageTitle
+        $page_title
         
         $body_html";
         fwrite($html_file2, $html2);
