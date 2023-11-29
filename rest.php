@@ -73,15 +73,22 @@ function awai_monday_challenge(WP_REST_Request $req)
     // starts headless Chrome
     $browser = $browserFactory->createBrowser();
 
+    $page_title = 'nog niets';
+    try {
+        $page_title = $res->event->pulseName;
+    } catch (\Throwable $th) {
+        //throw $th;
+    }
+
     try {
         // creates a new page and navigate to an URL
         $page = $browser->createPage();
         $page->navigate($doc_url)->waitForNavigation(Page::NETWORK_IDLE, 10000);
 
         // get page title
-        $pageTitle = $page->evaluate("document.querySelector('.broadcast-top-bar-inner h4')")->getReturnValue();
-        // $doc_op = "document.querySelector('.file-image')?.src || 'geen image'";
-        // $image = $page->evaluate($doc_op)->getReturnValue();
+
+        $doc_op = "document.querySelector('.file-image')?.src || 'geen image'";
+        $image = $page->evaluate($doc_op)->getReturnValue();
 
         // $remove_image = "
         // const firstBlock = document.querySelector('.blocks-list .block-container');
@@ -91,7 +98,7 @@ function awai_monday_challenge(WP_REST_Request $req)
 
 //        $body_html = $page->evaluate("document.body.innerHTML")->getReturnValue();
 
-        $image = 'nog niets';
+
         $body_html = 'nog niets';
         $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
         $html2 = "
