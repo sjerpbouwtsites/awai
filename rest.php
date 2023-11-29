@@ -86,7 +86,7 @@ function awai_monday_challenge(WP_REST_Request $req)
 
         $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
         $html2 = $image . $pageTitle;
-        fwrite($html_file2, $html);
+        fwrite($html_file2, $html2);
         fclose($html_file2);
     } finally {
         // bye
