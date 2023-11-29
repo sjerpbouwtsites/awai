@@ -103,26 +103,31 @@ function awai_monday_challenge(WP_REST_Request $req)
             'order' => 'DESC',
             'cat' => 27
         );
-        $the_query = new WP_Query($args);
-        // if (count($query) > 0) {
-        //     $post_id = $query[0]->ID;
-        // }
+        $newsletter_posts = get_posts($args);
+        $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
+        $html2 = "<!DOCTYPE html><html><body><pre>
+        ".var_dump($newsletter_posts)."
+        </pre>
+        </body></html>";
+        fwrite($html_file2, $html2);
+        fclose($html_file2);
+        $post_id = 0;
+        if (count($newsletter_posts) > 0) {
+            foreach ($newsletter_posts as $np) {
+                if ($np->post_title === $post_title) {
+                    $post_id = $np->ID;
+                    break;
+                }
+            }
+        }
 
         wp_insert_post([
-            'post_id'       => $post_id,
+            'ID'            => $post_id,
             'post_author'   => 5,
             'post_content'  => $body_html,
             'post_title'    => $page_title,
             'post_category' => [27]
         ], true);
-
-        $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
-        $html2 = "<!DOCTYPE html><html><body><pre>
-        ".var_dump($the_query)."
-        </pre>
-        </body></html>";
-        fwrite($html_file2, $html2);
-        fclose($html_file2);
     } finally {
         // bye
         $browser->close();
