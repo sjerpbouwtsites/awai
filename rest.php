@@ -3,7 +3,7 @@
 require __DIR__ . '/vendor/autoload.php';
 
 if (!defined('ABSPATH')) {
-    echo 'bai';
+    echo 'baibai';
     exit();
 }
 
