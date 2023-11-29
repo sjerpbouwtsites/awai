@@ -96,7 +96,7 @@ function awai_monday_challenge(WP_REST_Request $req)
         ";
         $page->evaluate($remove_image);
 
-        $body_html = $page->evaluate("document.body.innerHTML")->getReturnValue();
+        $body_html = $page->evaluate("document.querySelector('.blocks-list').innerHTML")->getReturnValue();
 
 
 
