@@ -97,16 +97,14 @@ function awai_monday_challenge(WP_REST_Request $req)
         $page->evaluate($remove_image);
 
         $body_html = $page->evaluate("document.querySelector('.blocks-list').innerHTML")->getReturnValue();
+        $body_html=preg_replace('/class=".*?"/', '', $body_html);
 
 
 
         $html_file2 = fopen(__DIR__."/post-html2.html", "w") or die("Unable to open file!");
-        $html2 = "
-        $image
-        
-        $page_title
-        
-        $body_html";
+        $html2 = "<!DOCTYPE html><html><body>
+        $body_html
+        </body></html>";
         fwrite($html_file2, $html2);
         fclose($html_file2);
     } finally {
