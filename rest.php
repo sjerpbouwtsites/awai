@@ -116,7 +116,7 @@ function awai_monday_challenge(WP_REST_Request $req)
         $post_id = 0;
         if (count($newsletter_posts) > 0) {
             foreach ($newsletter_posts as $np) {
-                if ($np->post_title === $post_title) {
+                if ($np->post_title === $page_title) {
                     $post_id = $np->ID;
                     break;
                 }
